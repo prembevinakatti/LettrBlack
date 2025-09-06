@@ -15,62 +15,65 @@ export interface Notes extends Document {
   groupId: Types.ObjectId;
 }
 
-const NoteSchema: Schema = new Schema<Notes>({
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
-  fileURL: {
-    type: String, // We can first store the files in Cloudinary or Pinata Cloud For Enhanced Security and the retrived hash can be stored in database
-    required: true,
-  },
-  subject: {
-    type: String,
-    required: true,
-  },
-  tags: [
-    {
+const NoteSchema: Schema = new Schema<Notes>(
+  {
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    content: {
       type: String,
       required: true,
     },
-  ],
-  upvotedBy: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",  // it must refer to the User
+    fileURL: {
+      type: String, // We can first store the files in Cloudinary or Pinata Cloud For Enhanced Security and the retrived hash can be stored in database
+      required: true,
     },
-  ],
-  ratings: [
-    {
-      userId: {
+    subject: {
+      type: String,
+      required: true,
+    },
+    tags: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
+    upvotedBy: [
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",  // it must refer to the User
-        required: true,
+        ref: "User", // it must refer to the User
       },
-      value: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 5,
+    ],
+    ratings: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User", // it must refer to the User
+          required: true,
+        },
+        value: {
+          type: Number,
+          required: true,
+          min: 1,
+          max: 5,
+        },
       },
-    },
-  ],
+    ],
 
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // it must refer to the User
-    required: true,
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // it must refer to the User
+      required: true,
+    },
+    groupId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Group", // it must refer to the Group
+      required: true,
+    },
   },
-  groupId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Group", // it must refer to the Group
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 export default mongoose.model<Notes>("Notes", NoteSchema);
