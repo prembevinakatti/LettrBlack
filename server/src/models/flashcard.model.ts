@@ -14,6 +14,7 @@ export interface FlashCard extends Document {
   createdAt: Date;
 }
 
+
 const CardSchema = new Schema<Card>({
   front: {
     type: String,
